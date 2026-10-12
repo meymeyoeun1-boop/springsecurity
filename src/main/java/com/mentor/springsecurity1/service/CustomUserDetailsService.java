@@ -3,6 +3,7 @@ package com.mentor.springsecurity1.service;
 import com.mentor.springsecurity1.entity.User;
 import com.mentor.springsecurity1.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Primary
 public class CustomUserDetailsService implements UserDetailsService{
 
     private final UserRepository userRepository;
