@@ -1,7 +1,7 @@
 package com.mentor.springsecurity1.products.entity;
 
 import com.mentor.springsecurity1.Share.BaseEntity;
-import com.mentor.springsecurity1.categories.entity.Category;
+import com.mentor.springsecurity1.category.entity.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
