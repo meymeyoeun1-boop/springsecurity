@@ -36,14 +36,18 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.toResponseDetail(category);
     }
     @Override
-    public CategoryResponseDetail update(CategoryRequest request) {
-        return null;
+    public CategoryResponseDetail update(Long id,CategoryRequest request) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+        category.setName(request.name());
+        Category updated = categoryRepository.save(category);
+        return categoryMapper.toResponseDetail(updated);
     }
 
     @Override
     public CategoryResponseDetail delete(Long id) {
         Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Category with id " + id + " does not exist."));
         categoryRepository.delete(category);
         return categoryMapper.toResponseDetail(category);
     }
