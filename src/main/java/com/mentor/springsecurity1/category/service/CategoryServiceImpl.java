@@ -42,6 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDetail delete(Long id) {
-        return null;
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Category not found with id: " + id));
+        categoryRepository.delete(category);
+        return categoryMapper.toResponseDetail(category);
     }
+
 }
