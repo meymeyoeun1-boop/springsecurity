@@ -14,7 +14,7 @@ import java.util.Date;
 public class JwtService {
 
     @Value("${app.jwt.secret}")
-    private  String secretKey ;
+    private String secretKey;
 
     @Value("${app.jwt.expiration}")
     private Long jwtExpiration ;
@@ -32,10 +32,13 @@ public class JwtService {
         return extractAllClaims(token).getSubject();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails ) {
+    public boolean isTokenValid(String token, UserDetails userDetails) {
         Claims claims = extractAllClaims(token);
-        return claims.getSubject().equals(userDetails.getUsername())
-                && claims.getExpiration().before(new Date());
+        String username = claims.getSubject();
+
+        // ✅ កែពី before(new Date()) មកជា after(new Date())
+        return username.equals(userDetails.getUsername())
+                && claims.getExpiration().after(new Date());
     }
 
     private Claims extractAllClaims(String token){

@@ -54,9 +54,9 @@ public class AuthServiceImpl implements AuthService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .isVerified(true)
-                .isAccountMonLocked(true)
+                .isAccountNonLocked(true)
                 .isAccountNoExpired(true)
-                .isCredentialsNoExpired(true)
+                .isCredentialsNonExpired(true)
                 .isDeleted(false)
                 .roles(Set.of(userRole))
                 .build();
@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
         );
 
         CustomUserDetails details = (CustomUserDetails) auth.getPrincipal();
-        User user = new User();
+        User user = details.getUser();
 
         String accessToken = jwtService.generateToken(details);
         String refreshToken = createRefreshToken(user).getToken();

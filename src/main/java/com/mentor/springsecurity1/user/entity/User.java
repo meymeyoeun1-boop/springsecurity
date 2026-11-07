@@ -29,18 +29,18 @@ public class User {
     private Boolean isAccountNoExpired = true;
 
     @Column(name ="is_credentials_no_expired",nullable = false)
-    private Boolean isCredentialsNoExpired = true;
+    private Boolean isCredentialsNonExpired = true;
 
     @Column(name ="is_verified",nullable = false)
     private Boolean isVerified = false;
 
     @Column(name ="is_account_non_locked",nullable = false)
-    private Boolean isAccountMonLocked= true;
+    private Boolean isAccountNonLocked= true;
 
     @Column(name ="is_deleted", nullable = false)
     private Boolean isDeleted = false;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

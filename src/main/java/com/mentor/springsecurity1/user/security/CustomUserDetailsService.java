@@ -1,5 +1,6 @@
 package com.mentor.springsecurity1.user.security;
 
+import jakarta.transaction.Transactional;
 import com.mentor.springsecurity1.user.entity.User;
 import com.mentor.springsecurity1.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,15 +13,17 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @Primary
+
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + email));
 
-        return new CustomUserDetails();
+        return new CustomUserDetails(user);
     }
 }
