@@ -6,7 +6,6 @@ import com.mentor.springsecurity1.category.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,13 +27,15 @@ public class CategoryAdminController {
     }
 
     @PutMapping("/{id}")
-    public CategoryResponseDetail update(@PathVariable Long id, @Valid  @RequestBody CategoryRequest categoryRequest){
+    public CategoryResponseDetail update(@PathVariable Long id,
+                                         @Valid  @RequestBody CategoryRequest categoryRequest){
         return categoryService.update(id, categoryRequest);
     }
 
     @DeleteMapping("/{id}")
     public CategoryResponseDetail delete(@PathVariable Long id){
         return categoryService.delete(id);
+
     }
 
 }

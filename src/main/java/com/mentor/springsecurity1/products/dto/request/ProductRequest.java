@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RequestProduct {
+public class ProductRequest {
 
     @NotNull(message = "name is request")
     @Size(min = 2, max = 2500)
