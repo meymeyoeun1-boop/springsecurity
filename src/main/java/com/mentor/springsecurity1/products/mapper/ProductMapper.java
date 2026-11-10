@@ -4,7 +4,9 @@ import com.mentor.springsecurity1.products.dto.request.ProductRequest;
 import com.mentor.springsecurity1.products.dto.response.ProductResponse;
 import com.mentor.springsecurity1.products.dto.response.ProductResponseDetail;
 import com.mentor.springsecurity1.products.entity.Product;
+import org.mapstruct.Mapper;
 
+@Mapper(componentModel = "spring")
 public interface ProductMapper {
 
     Product toEntity (ProductRequest productRequest);
