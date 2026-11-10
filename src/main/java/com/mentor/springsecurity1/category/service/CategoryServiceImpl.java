@@ -1,8 +1,10 @@
 package com.mentor.springsecurity1.category.service;
 
 import com.mentor.springsecurity1.category.dto.request.CategoryRequest;
+import com.mentor.springsecurity1.category.dto.response.CategoryResponse;
 import com.mentor.springsecurity1.category.dto.response.CategoryResponseDetail;
 import com.mentor.springsecurity1.category.entity.Category;
+import com.mentor.springsecurity1.category.entity.CategoryStatus;
 import com.mentor.springsecurity1.category.mapper.CategoryMapper;
 import com.mentor.springsecurity1.category.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,11 +47,33 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryResponseDetail delete(Long id) {
+    public void  delete(Long id) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category with id " + id + " does not exist."));
         categoryRepository.delete(category);
-        return categoryMapper.toResponseDetail(category);
+    }
+
+    @Override
+    public void active(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found" + id));
+        category.setCategoryStatus(CategoryStatus.ACTIVE);
+        categoryRepository.save(category);
+    }
+
+    @Override
+    public void inactive(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found" + id));
+        category.setCategoryStatus(CategoryStatus.INACTIVE);
+        categoryRepository.save(category);
+    }
+
+    @Override
+    public CategoryResponse getCategoryPublic(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Category not found" + id));
+        return categoryMapper.toResponse(category);
     }
 
 }

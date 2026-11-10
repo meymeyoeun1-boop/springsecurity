@@ -6,6 +6,7 @@ import com.mentor.springsecurity1.category.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -33,10 +34,13 @@ public class CategoryAdminController {
     }
 
     @DeleteMapping("/{id}")
-    public CategoryResponseDetail delete(@PathVariable Long id){
-        return categoryService.delete(id);
-
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
+
+
+
 
 }
 
