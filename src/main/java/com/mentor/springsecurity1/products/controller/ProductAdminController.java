@@ -1,13 +1,14 @@
 package com.mentor.springsecurity1.products.controller;
 
+import com.mentor.springsecurity1.products.dto.request.ProductRequest;
 import com.mentor.springsecurity1.products.dto.response.ProductResponse;
+import com.mentor.springsecurity1.products.dto.response.ProductResponseDetail;
 import com.mentor.springsecurity1.products.service.ProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +20,23 @@ public class ProductAdminController {
     private final ProductService productService;
 
     @GetMapping("/list")
-    public ResponseEntity<List<ProductResponse>>  getAllProducts(){
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
         List<ProductResponse> list = productService.getAllProducts();
         return ResponseEntity.ok(list);
 
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<ProductResponseDetail> addProduct(@Valid @RequestBody ProductRequest request){
+        ProductResponseDetail response = productService.addProduct(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponseDetail> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request){
+        ProductResponseDetail updatedProduct = productService.update(id, request);
+        return ResponseEntity.ok(updatedProduct);
+    }
+
+
 }
