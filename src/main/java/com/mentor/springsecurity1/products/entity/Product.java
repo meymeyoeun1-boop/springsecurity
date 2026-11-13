@@ -16,20 +16,29 @@ import java.math.BigDecimal;
 @Builder
 public class Product extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false,length = 200)
     private String name;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal price;
 
+    @Column(nullable = false)
     private Integer stock;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false,length = 20)
+    @Builder.Default
+    private ProductStatus status = ProductStatus.INACTIVE;
 
     private Boolean active;
 
+    @Column(nullable = false,length = 50)
     private String sku;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+
 
 }

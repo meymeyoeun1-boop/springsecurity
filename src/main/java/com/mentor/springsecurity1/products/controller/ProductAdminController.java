@@ -19,13 +19,6 @@ public class ProductAdminController {
 
     private final ProductService productService;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<ProductResponse>> getAllProducts() {
-        List<ProductResponse> list = productService.getAllProducts();
-        return ResponseEntity.ok(list);
-
-    }
-
     @PostMapping("/create")
     public ResponseEntity<ProductResponseDetail> addProduct(@Valid @RequestBody ProductRequest request){
         ProductResponseDetail response = productService.addProduct(request);

@@ -1,6 +1,8 @@
 package com.mentor.springsecurity1.products.service;
 
+import com.mentor.springsecurity1.Share.PageResponse;
 import com.mentor.springsecurity1.category.entity.Category;
+import com.mentor.springsecurity1.category.repository.CategoryRepository;
 import com.mentor.springsecurity1.products.dto.request.ProductRequest;
 import com.mentor.springsecurity1.products.dto.response.ProductResponse;
 import com.mentor.springsecurity1.products.dto.response.ProductResponseDetail;
@@ -9,8 +11,10 @@ import com.mentor.springsecurity1.products.mapper.ProductMapper;
 import com.mentor.springsecurity1.products.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.nio.file.ProviderNotFoundException;
 import java.util.List;
 
@@ -19,14 +23,10 @@ import java.util.List;
 @Transactional
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
     private final ProductMapper productMapper;
 
-    @Override
-    public ProductResponseDetail addProduct(ProductRequest request) {
-        Product newProduct = productMapper.toEntity(request);
-        Product savedProduct = productRepository.save(newProduct);
-        return productMapper.toProductResponseDetail(savedProduct);
-    }
+
 
     @Override
     public ProductResponseDetail update(Long id, ProductRequest request) {
@@ -47,18 +47,17 @@ public class ProductServiceImpl implements ProductService {
         return null;
     }
 
-
-
+    @Override
     @Transactional
-    public List<ProductResponse> getAllProducts(){
-        return productRepository.findAll().stream()
-                .map(productMapper::toProductResponse)
-                .toList();
+    public PageResponse<ProductResponseDetail> list(Pageable pageable) {
+        Page<Product> productPage = productRepository.findAllByDeletedAtIsNull((org.springframework.data.domain.Pageable) pageable);
+        return PageResponse.of(productPage,productMapper::toProductResponseDetail);
     }
 
-
-
-
+    @Override
+    public ProductResponseDetail addProduct(ProductRequest request) {
+        return null;
+    }
 
 
 }

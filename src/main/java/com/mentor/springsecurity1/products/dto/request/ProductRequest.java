@@ -1,8 +1,7 @@
 package com.mentor.springsecurity1.products.dto.request;
 
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -16,18 +15,20 @@ public class ProductRequest {
 
     @NotNull(message = "name is request")
     @Size(min = 2, max = 2500)
-    private String name;
+    String name;
 
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal price;
+    @NotNull @DecimalMax("0.00") @Digits(integer = 10,fraction = 2)
+    BigDecimal price;
 
-    private Integer stock;
+    @NotNull @PositiveOrZero Integer stock;
 
-    private Boolean active;
+    @NotNull @Size(max = 50)
+    String sku;
 
-    private String sku;
+    @Pattern(regexp = "^(ACTIVE|INACTIVE)$")
+    String status;
 
-    private Long categoryId;
+    @NotNull Long categoryId;
 }
 
 

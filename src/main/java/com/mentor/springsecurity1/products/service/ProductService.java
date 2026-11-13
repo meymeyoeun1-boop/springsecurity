@@ -1,15 +1,18 @@
 package com.mentor.springsecurity1.products.service;
 
+import com.mentor.springsecurity1.Share.PageResponse;
 import com.mentor.springsecurity1.products.dto.request.ProductRequest;
 import com.mentor.springsecurity1.products.dto.response.ProductResponse;
 import com.mentor.springsecurity1.products.dto.response.ProductResponseDetail;
+import org.springframework.data.domain.Page;
 
+import java.awt.print.Pageable;
 import java.util.List;
 
 
 public interface ProductService {
 
-    List<ProductResponse> getAllProducts();
+   PageResponse<ProductResponseDetail> list(Pageable pageable);
 
     ProductResponseDetail addProduct(ProductRequest request);
 

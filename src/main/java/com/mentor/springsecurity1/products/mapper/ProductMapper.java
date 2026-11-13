@@ -1,17 +1,14 @@
 package com.mentor.springsecurity1.products.mapper;
 
-import com.mentor.springsecurity1.products.dto.request.ProductRequest;
-import com.mentor.springsecurity1.products.dto.response.ProductResponse;
 import com.mentor.springsecurity1.products.dto.response.ProductResponseDetail;
 import com.mentor.springsecurity1.products.entity.Product;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    Product toEntity (ProductRequest productRequest);
-
+    @Mapping(target = "categoryId",source = "category.id")
+    @Mapping(target = "categoryName",source = "category.name")
     ProductResponseDetail toProductResponseDetail(Product product);
-
-    ProductResponse toProductResponse(Product product);
 }
