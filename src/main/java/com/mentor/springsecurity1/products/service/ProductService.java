@@ -22,5 +22,7 @@ public interface ProductService {
 
     ProductResponseDetail getById(Long id);
 
+    ProductResponseDetail create(ProductRequest request);
+
 
 }

@@ -12,7 +12,9 @@ import com.mentor.springsecurity1.products.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.awt.print.Pageable;
 import java.nio.file.ProviderNotFoundException;
@@ -44,13 +46,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductResponseDetail getById(Long id) {
-        return null;
+        Product data = productRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found: " + id));
+
+        return productMapper.toProductResponseDetail(data);
+    }
+    @Override
+    public ProductResponseDetail create(ProductRequest request) {
+        Product newProduct = productMapper.toEntity(request);
+        Product savedProduct = productRepository.save(newProduct);
+        return productMapper.toProductResponseDetail(savedProduct);
     }
 
     @Override
     @Transactional
     public PageResponse<ProductResponseDetail> list(Pageable pageable) {
-        Page<Product> productPage = productRepository.findAllByDeletedAtIsNull((org.springframework.data.domain.Pageable) pageable);
+        Page<Product> productPage = productRepository.findAllByDeletedAtIsNull(((org.springframework.data.domain.Pageable) pageable).getOffset());
         return PageResponse.of(productPage,productMapper::toProductResponseDetail);
     }
 
