@@ -1,0 +1,15 @@
+package com.mentor.springsecurity1.products.dto.request;
+
+
+import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
+
+public record ProductUpdateRequest(@NotBlank @Size(max = 10) String sku,
+                                   @NotBlank @Size(max = 50) String name,
+                                   @NotNull @DecimalMin("0.00") @Digits(integer = 10, fraction = 2) BigDecimal price,
+                                   @NotNull @PositiveOrZero Integer stock,
+                                   @Pattern(regexp = "^(ACTIVE|INACTIVE)$")
+                                   String status,
+                                   @NotNull Long categoryId) {
+}

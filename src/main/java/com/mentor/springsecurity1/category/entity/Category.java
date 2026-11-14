@@ -30,4 +30,6 @@ public class Category extends BaseEntity {
     private List<Product> products;
 
 
+    public void setId(Long categoryId) {
+    }
 }
